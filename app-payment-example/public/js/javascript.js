@@ -15,8 +15,8 @@ class App {
         this.numCard = '';
         this.phone = '';
         this.summ = '';
-        this.templateName ='';
-        this.open = '';
+        
+        
    }
     
 
@@ -109,7 +109,7 @@ class App {
                     this.phone = $("#tel").val();
                     this.summ = $("#sum").val();
                     
-                    getView('view2.html');
+                    app.getView('view2.html');
                     
                     
                     }
@@ -118,7 +118,7 @@ class App {
 
    }
    showPage2(d){
-        let getView = this.getView;   
+        $("#main").html(d); 
         console.log(d);
    }
   
