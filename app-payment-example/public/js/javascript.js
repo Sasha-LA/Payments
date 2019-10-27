@@ -7,6 +7,7 @@
 
 
 
+
 class App {
 
     constructor() {
@@ -15,22 +16,41 @@ class App {
         this.phone = '';
         this.summ = '';
         this.templateName ='';
+        this.open = '';
    }
     
-    getView(templateName) {
-       $.ajax({
-           url : '/get_templates/html/' + templateName,
-           // /get_templates/html/view1.html
-           success: function(d) {
-               
-               
-               if (templateName == "view1.html"){
+
+   getView(templateName) {
+    let self = this;
+    $.ajax({
+        url : '/get_templates/html/' + templateName,
+        // /get_templates/html/view1.html
+        success: function(d) {
+           // console.log(this);
+            
+            if (templateName == "view1.html"){
+                console.log(d);
+                self.showPage1(d);
+            }    
+            if (templateName == "view2.html"){
+                console.log(d);
+                self.showPage2(d);
+            }
+        }
+    });
+
+}
+
+
+
+
+
+    showPage1(d) {
+                let getView = this.getView;
                 $("#main").html(d);
                  
-                //show1(); 
-                $("#tel").mask("+380(99) 999-99-99").keydown(function(){
-                    $("#tel").css("background-color", "white");
-                });
+                
+                
 
 
                 $.ajax({
@@ -40,6 +60,7 @@ class App {
                         for (let i = 0; i< p.packets.length; i++){
                             console.log("hello")
                             $('.hr').append("<li "+ "id='"+p.packets[i]+"'>"+p.packets[i] +"</li>"); 
+                            $("#tel").mask("+380(99) 999-99-99");
                         }
                         $(".hr").click(function(ev){
                             let id = +ev.target.id;
@@ -50,6 +71,7 @@ class App {
                           
 
                         })
+                        
 
                     }
 
@@ -57,6 +79,9 @@ class App {
 
                 });
 
+                $("#tel").keydown(function(){
+                    $("#tel").css("background-color", "white");
+                });
                 $("#sum").keydown(function(ev){
                     console.log(ev.which);
                     let k = ev.which;
@@ -84,21 +109,18 @@ class App {
                     this.phone = $("#tel").val();
                     this.summ = $("#sum").val();
                     
-                    success("view2");
+                    getView('view2.html');
                     
                     
                     }
                })
-            }   
-                else
-                    if (templateName == "view2"){
-                        console.log("helloworld");
-                        }  
-           }
-       });
+         
 
    }
-     
+   showPage2(d){
+        let getView = this.getView;   
+        console.log(d);
+   }
   
 
    
