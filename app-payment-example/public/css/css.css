@@ -1,6 +1,7 @@
 ul.hr {
     margin: 0; /* Обнуляем значение отступов */
     padding: 4px; /* Значение полей */
+    width: 10%;
    }
    ul.hr li {
     display: inline; /* Отображать как строчный элемент */
@@ -17,4 +18,10 @@ ul.hr {
     }
     #cvv{
         width:30px;
+    }
+
+    #sub1, #pay {
+        border: 1px solid #000;
+        width: 5%;
+        padding: 3px;
     }
