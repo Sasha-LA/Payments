@@ -2,20 +2,20 @@
 
 class App {
 
-    constructor(numCard, phone, summ, ccNum, ccYear, ccMonth, ccCvv, holderHame) {
+    constructor(phone, summ, ccNum, ccYear, ccMonth, ccCvv, holderHame) {
 
-        this.numCard = '';
-        this.phone = '';
-        this.summ = '';
-        this.ccNum = '';
-        this.ccYear = '';
-        this.ccMonth = '';
-        this.ccCvv = '';
-        this.holderHame ='';
+        
+        this.phone = phone;
+        this.summ = summ;
+        this.ccNum = ccNum;
+        this.ccYear = ccYear;
+        this.ccMonth = ccMonth;
+        this.ccCvv = ccCvv;
+        this.holderName = holderHame;
    }
     
 
-   getView(templateName) {
+   getView(templateName, num, sum) {
     let self = this;
     $.ajax({
         url : '/get_templates/html/' + templateName,
@@ -29,7 +29,7 @@ class App {
             }    
             if (templateName == "view2.html"){
                 
-                self.showPage2(d);
+                self.showPage2(d, num, sum);
             }
         }
     });
@@ -104,9 +104,9 @@ class App {
                     console.log("good enough");
                     this.phone = $("#tel").val();
                     this.summ = $("#sum").val();
-                    console.log(phone);
+                    console.log(this.phone);
                     
-                    app.getView('view2.html');
+                    app.getView('view2.html', this.phone, this.summ);
                     
                     
                     }
@@ -114,9 +114,11 @@ class App {
          
 
    }
-   showPage2(d){
+   showPage2(d, num, sum){
         $("#main").html(d);   
         console.log(d);
+        console.log(num);
+        console.log(sum);
         $("#cc").mask("9999-9999-9999-9999", {placeholder: "X"});
         $("#month").mask("99", {placeholder: "X"});
         $("#year").mask("99", {placeholder: "X"});
@@ -145,6 +147,7 @@ class App {
                 checkLuna += xo[i];
                 i ++;
             }
+            console.log(checkLuna);
             let card = new Date;
             let now = new Date();
             card.setYear(2000 + parseInt($("#year").val()));
@@ -193,28 +196,28 @@ class App {
                 this.ccYear = $("#year").val();
                 this.ccMonth = $("#month").val();
                 this.ccCvv = $("#cvv").val();
-                this.holderHame = $("#name").val();
-                /*let phoneL = this.phone;
-                let sumOf = this.summ;
-                let ccN = this.ccNum;
-                let ccY = this.ccYear;
-                let ccM = this.ccMonth;
-                let cCvv = this.ccCvv;
-                let hN = this.holderHame;*/
+                this.holderName = $("#name").val();
+                /*constructor(num, sum, this.ccNum, this.ccYear, this.ccMonth, this.ccCvv, this.holderName);*/
+          
                 
-                $.ajax({
-                    url: "/save_payment",
-                    type: "post",
-                    data: ,
+                
+               
+                app.savePayment({
                     
-                    dataType: 'json', 
-                    success: function(){   
-                        alert("Sent");
-                    },
-                    error:function(){
-                        alert("failure");                
-                    }
+                    phoneNumber: num,
+                    sum: sum,
+                    ccNumber: this.ccNum,
+                    ccYear: this.ccYear,
+                    ccMonth: this.ccMonth,
+                    ccCvv: this.ccCvv,
+                    holderName: this.holderName
                 });
+                $("#main").html("Congratulations <br> <p id='press'>Press to come back on the first page</p>");
+                $("#press").click(function(){
+                    app.start();
+                }
+
+                );
             }
 
             
@@ -227,7 +230,22 @@ class App {
 
 
 
-
+    savePayment(objPayment) {
+        console.log('app.savePayment');
+        $.ajax({
+            url: "/save_payment",
+            type: "post",
+            data: JSON.stringify(objPayment),
+            processData: false,
+            contentType: "application/json; charset=utf-8",
+            success: function(data) {
+                console.log(`Payment was saved succesfully: ${data}`);
+            },
+            error: function(err) {
+                console.log('Payment error:', err);
+            }
+        });
+    } 
    
   
 
@@ -241,7 +259,7 @@ class App {
 }
 
 let app = new App;
-app.start('view1.html');
+app.start();
 
 
 
