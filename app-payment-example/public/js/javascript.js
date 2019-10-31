@@ -14,7 +14,6 @@ class App {
         this.holderName = holderHame;
    }
     
-
    getView(templateName, num, sum) {
     let self = this;
     $.ajax({
@@ -37,18 +36,11 @@ class App {
 }
 
 
-
-
-
     showPage1(d) {
                 let getView = this.getView;
                 let start = this.start;
                 $("#main").html(d);
                  
-                
-                
-
-
                 $.ajax({
                     url : '/get_packets',
                     success: function(p){
@@ -65,14 +57,9 @@ class App {
                             
                             $("#sum").css("background-color", "white");
                           
-
                         })
-                        
-
+                      
                     }
-
-
-
                 });
 
                 $("#tel").keydown(function(){
@@ -186,10 +173,6 @@ class App {
             }
 
 
-
-
-
-
             if(check == true){
                 console.log("payment admit");
                 this.ccNum = $("#cc").val();
@@ -198,10 +181,7 @@ class App {
                 this.ccCvv = $("#cvv").val();
                 this.holderName = $("#name").val();
                 /*constructor(num, sum, this.ccNum, this.ccYear, this.ccMonth, this.ccCvv, this.holderName);*/
-          
-                
-                
-               
+   
                 app.savePayment({
                     
                     phoneNumber: num,
@@ -227,9 +207,6 @@ class App {
 
     } 
 
-
-
-
     savePayment(objPayment) {
         console.log('app.savePayment');
         $.ajax({
@@ -248,10 +225,6 @@ class App {
     } 
    
   
-
-   
-
-
    start() {
        this.getView('view1.html')
    }
